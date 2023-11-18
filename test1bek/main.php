@@ -23,6 +23,21 @@ $mid = $msg->message_id;
 $inline = $data->callback_query->data;
 $inmsgid = $data->callback_query->inline_message_id;
 
+
+if ($text == '/start' or $text == "↩Назад") {
+    bot('sendMessage', [
+        'chat_id'=>$id,
+        'text'=>"Добро пожаловать! Вы хотите отправить сообщение на канал? Подключенный канал: {$channelName}",
+        'parse_mode'=>'html',
+        'reply_markup'=>json_encode([
+            'resize_keyboard'=>true,
+            'keyboard'=>[
+                [['text'=>"✍🏻Написать сообщение"]],
+            ],
+        ]),
+    ]);
+}
+
 function getChannelInfo($botToken, $channelName) {
     // Set the URL and parameters for the API request
     $url = "https://api.telegram.org/bot{$botToken}/getChat?chat_id={$channelName}";
@@ -41,19 +56,6 @@ $channelInfo = getChannelInfo($api, $channelName);
 $channelID = $channelInfo['result']['id'];
 $channelTitle = $channelInfo['result']['title'];
 
-if($text == "/start") {
-    bot('sendMessage', [
-        'chat_id'=>$id,
-        'text'=>"Добро пожаловать! Вы хотите отправить сообщение на канал? Подключенный канал: {$channelName}",
-        'parse_mode'=>'html',
-        'reply_markup'=>json_encode([
-            'resize_keyboard'=>true,
-            'keyboard'=>[
-                [['text'=>"✍🏻Написать сообщение"]],
-            ],
-        ]),
-    ]);
-}
 if($text == "✍🏻Написать сообщение") {
     bot('sendMessage', [
         'chat_id'=>$id,

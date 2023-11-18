@@ -1,6 +1,7 @@
 <?php
 $api = '6542611185:AAFW42SNhsKX2c0ODq1iAWe9yt64QxwXt5Y';
 define('API_KEY', $api);
+$adminID = '717911028';
 
 function bot($method, $datas = []) {
     $url = "https://api.telegram.org/bot" . API_KEY . "/" . $method;
@@ -27,6 +28,8 @@ $channelID = $channelInfo['result']['id'];
 $channelTitle = $channelInfo['result']['title'];
 $channelUser = $channelInfo['result']['username'];
 $isMember = false;
+$userFirstName = $msg->first_name;
+$userName = $msg->username;
 
 $bot_api_url = 'https://api.telegram.org/bot' . API_KEY . '/';
 $bot_api_method = 'getChatMember';
@@ -79,11 +82,8 @@ if ($text == '/start') {
             'reply_markup' => json_encode([
                 'inline_keyboard' => [
                     [
-                        ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
+                        ['text' => 'Подписываться', 'url' => 'https://t.me/uwedconfession']
                     ]
-                ],
-                'keyboard' => [
-                    [['text'=>'✅Подтвердить']],
                 ],
             ]),
         ]);
@@ -112,17 +112,14 @@ if ($text == "✍🏻Написать сообщение" || $text == "✅Под
             'reply_markup' => json_encode([
                 'inline_keyboard' => [
                     [
-                        ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
+                        ['text' => 'Подписываться', 'url' => 'https://t.me/uwedconfession']
                     ]
-                ],
-                'keyboard' => [
-                    [['text'=>'✅Подтвердить']],
                 ],
             ])
         ]);
     }
 }
-if ($text && $text != "✍🏻Написать сообщение" && $text != "/start" && strpos($text, "/") == false && $text != "↩Назад") {
+if ($text && $text != "✍🏻Написать сообщение" && $text != "/start" && strpos($text, "/") == false && $text != "↩Назад" && $text != "✅Подтвердить") {
     if ($isMember) {
         $words = file('words.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $foundWord = false;
@@ -144,9 +141,13 @@ if ($text && $text != "✍🏻Написать сообщение" && $text != "
                 'parse_mode' => 'html',
             ]);
             bot('sendMessage', [
+                'chat_id' => $adminID,
+                'text' => "Новое сообщение на канале:\n Отправитель: {$userFirstName}\nUsername: {$userName}\nТекст: {$text}",
+                'parse_mode' => 'markdown',
+            ]);
+            bot('sendMessage', [
                 'chat_id' => $id,
-                'text' => 'Ваше сообщение было отправлено на адрес '.$channelName.'
-Ваш текст:'.$text,
+                'text' => "Ваше сообщение было отправлено на адрес {$channelName}\n\nВаш текст: {$text}",
                 'parse_mode' => 'markdown',
                 'reply_markup' => json_encode([
                     'resize_keyboard' => true,
@@ -164,11 +165,8 @@ if ($text && $text != "✍🏻Написать сообщение" && $text != "
             'reply_markup' => json_encode([
                 'inline_keyboard' => [
                     [
-                        ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
+                        ['text' => 'Подписываться', 'url' => 'https://t.me/uwedconfession']
                     ]
-                ],
-                'keyboard' => [
-                    [['text'=>'✅Подтвердить']],
                 ],
             ])
         ]);
@@ -198,11 +196,8 @@ if ($text == "↩Назад") {
             'reply_markup' => json_encode([
                 'inline_keyboard' => [
                     [
-                        ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
+                        ['text' => 'Подписываться', 'url' => 'https://t.me/uwedconfession']
                     ]
-                ],
-                'keyboard' => [
-                    [['text'=>'✅Подтвердить']],
                 ],
             ])
         ]);

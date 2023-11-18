@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "fs-js": "^1.0.6"
+  }
+}

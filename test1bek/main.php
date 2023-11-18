@@ -1,5 +1,5 @@
 <?php
-$api = '6666210193:AAFUeN_m6D4NfTwgpVko-yHJsXlPoVD2Oo0';
+$api = '6542611185:AAFW42SNhsKX2c0ODq1iAWe9yt64QxwXt5Y';
 define('API_KEY', $api);
 
 function bot($method, $datas = []) {
@@ -21,7 +21,7 @@ $msg = $data->message;
 $text = $msg->text;
 $id = $msg->chat->id;
 $mid = $msg->message_id;
-$channelName = "@test1Otabek";
+$channelName = "@uwedconfession";
 $channelInfo = json_decode(file_get_contents("https://api.telegram.org/bot" . API_KEY . "/getChat?chat_id={$channelName}"), TRUE);
 $channelID = $channelInfo['result']['id'];
 $channelTitle = $channelInfo['result']['title'];
@@ -44,6 +44,7 @@ $dataMem = json_decode($response, true);
 if ($dataMem['ok'] && ($dataMem['result']['status'] == 'member' || $dataMem['result']['status'] == 'creator' || $dataMem['result']['status'] == 'administrator')) {
     $isMember = true;
     
+    
 } else {
     $isMember = false;
 }
@@ -61,6 +62,14 @@ if ($text == '/start') {
                 ],
             ]),
         ]);
+        $words = file('words.txt', FILE_IGNORE_NEW_LINES);
+        $capwords = array();
+
+        foreach ($words as $word) {
+            $capwords[] = ucwords($word);
+        }
+
+        file_put_contents('capwords.txt', implode("\n", $capwords));
         
     } else {
         bot('sendMessage', [
@@ -73,12 +82,15 @@ if ($text == '/start') {
                         ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
                     ]
                 ],
-            ])
+                'keyboard' => [
+                    [['text'=>'✅Подтвердить']],
+                ],
+            ]),
         ]);
     }
 }
 
-if ($text == "✍🏻Написать сообщение") {
+if ($text == "✍🏻Написать сообщение" || $text == "✅Подтвердить") {
     if ($isMember) {
         bot('sendMessage', [
             'chat_id' => $id,
@@ -102,6 +114,9 @@ if ($text == "✍🏻Написать сообщение") {
                     [
                         ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
                     ]
+                ],
+                'keyboard' => [
+                    [['text'=>'✅Подтвердить']],
                 ],
             ])
         ]);
@@ -152,6 +167,9 @@ if ($text && $text != "✍🏻Написать сообщение" && $text != "
                         ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
                     ]
                 ],
+                'keyboard' => [
+                    [['text'=>'✅Подтвердить']],
+                ],
             ])
         ]);
     }
@@ -182,6 +200,9 @@ if ($text == "↩Назад") {
                     [
                         ['text' => 'Subcribe', 'url' => 'https://t.me/test1Otabek']
                     ]
+                ],
+                'keyboard' => [
+                    [['text'=>'✅Подтвердить']],
                 ],
             ])
         ]);

@@ -1,7 +1,7 @@
 <?php
-$api = '6542611185:AAFW42SNhsKX2c0ODq1iAWe9yt64QxwXt5Y';
+$api = '6666210193:AAFUeN_m6D4NfTwgpVko-yHJsXlPoVD2Oo0';
 define('API_KEY', $api);
-$adminID = '717911028';
+$adminID = '1013297198';
 
 function bot($method, $datas = []) {
     $url = "https://api.telegram.org/bot" . API_KEY . "/" . $method;
@@ -22,14 +22,14 @@ $msg = $data->message;
 $text = $msg->text;
 $id = $msg->chat->id;
 $mid = $msg->message_id;
-$channelName = "@uwedconfession";
+$channelName = "@test1Otabek";
 $channelInfo = json_decode(file_get_contents("https://api.telegram.org/bot" . API_KEY . "/getChat?chat_id={$channelName}"), TRUE);
 $channelID = $channelInfo['result']['id'];
 $channelTitle = $channelInfo['result']['title'];
 $channelUser = $channelInfo['result']['username'];
 $isMember = false;
-$userFirstName = $msg->first_name;
-$userName = $msg->username;
+$userFirstName = $msg->chat->first_name;
+$userName = $msg->chat->username;
 
 $bot_api_url = 'https://api.telegram.org/bot' . API_KEY . '/';
 $bot_api_method = 'getChatMember';
